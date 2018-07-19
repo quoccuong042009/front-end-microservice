@@ -1,0 +1,68 @@
+<div class = "row-full-width content">
+	<img src= {{movie?.picUrl}} class = "main-movie" width="300px" height="450px"/>
+
+	<h1>{{ movie?.movieTitle }}</h1><br />
+	<p>
+		{{ movie?.description }}
+	</p>
+	<hr>
+	<form [formGroup] = "bookMovieForm" (ngSubmit) = "onSubmit()">
+		<div >
+		<label><b>Date</b></label>
+		<div  >
+			<select (change)="onDateSelected($event.target.value)"
+			formControlName= "date">
+				<option value="" disabled selected="selected"> </option>
+				<option *ngFor = "let date of dates" [value] = "date">
+					{{ date }}
+				</option>
+			</select>
+		</div>
+
+		<label><b>Time</b></label>
+		<div>
+			<select [disabled]="!haveDates"
+			(change)="onTimeSelected($event.target.value)"
+			formControlName= "time">
+				<option value="" disabled [selected]="timeDefault"> </option>
+				<option *ngFor = "let time of times" [value] = "time">
+					{{ time }}
+				</option>
+			</select>
+		</div>
+
+		<label><b>Theater</b></label>
+		<div>
+			<select [disabled]="!haveTimes"
+			formControlName= "theater">
+				<option value="" disabled [selected]="theaterDefault"> </option>
+				<option *ngFor = "let theater of theaters" [value] = "theater.theaterId">
+					{{ theater.name }}
+				</option>
+			</select>
+		</div>
+		<button type="button"
+		class="btn btn-primary"
+		type="submit"
+		[disabled]="!bookMovieForm.valid">Continue</button>
+		</div>
+	</form>
+
+</div>
+
+<div class = "recommendation">
+	<h1> Recommendation </h1>
+	<ul id="album-list">
+		<li *ngFor="let movie of recMovies | paginate: { itemsPerPage: 5, currentPage: p }">
+			<a [routerLink]="['/book-movie', movie.movieId]" routerLinkActive="active">
+				<img src= {{movie.picUrl}} width="175px" height="250px"/>
+				<span>{{ movie.movieTitle }}</span>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<div class = "page">
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div >
+<!-- [routerLink]="['/book-movie', movie.movieId]"  -->

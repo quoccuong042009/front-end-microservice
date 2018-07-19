@@ -1,0 +1,28 @@
+<div class = "greeting">
+	<h3> Movie Title: {{ curMovie?.movieTitle }} </h3>
+	<h3> Date: {{ curShowtime?.date }}</h3>
+	<h3> Time: {{ curShowtime?.slot }}</h3>
+	<h3> theater: {{ curTheater?.name }}</h3>
+</div>
+
+<div class = "screenContainer">
+	<div class = "screen">SCREEN</div>
+</div>
+
+<div class = "mid" >
+	<div class = "seatContainer">
+		<div class="seat col" *ngFor="let s of seatsManager" >
+
+	      <input type="checkbox" value="{{s.seatNumber}}" [disabled] = "s.disabled" (change)="updateChecked(s, $event)">
+
+		</div>
+	</div>
+	<br />
+	<span style="color:red" *ngIf = "invalidNumberOfSeats">
+		Maximum numbers of seat per order is 5. Please try again.
+	</span>
+	<br />
+	<button type="button" class="btn btn-primary" type="submit" (click) ="onSubmit()">
+		Submit
+	</button>
+</div>

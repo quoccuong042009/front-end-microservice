@@ -1,0 +1,23 @@
+<h2 class = "f" >Login Form</h2>
+<form [formGroup] = "loginForm" (ngSubmit) = "onLogin()">
+  <div class="container">
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" formControlName= "email">
+		<span style="color:red" *ngIf = "invalidEmail">
+								Invalid email. Please try again.
+							</span><br />
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" formControlName= "password">
+		<span style="color:red" *ngIf = "invalidPassword">
+								Password must be at least 8 characters. Please try again.
+							</span><br />
+		<span style="color:red" *ngIf = "wrongEmailOrPassword">
+								Incorrect email or password. Please try again.
+							</span><br />
+
+    			<a href="#"><span>Forgot password?</span></a>
+    <button type = "submit">Login</button>
+  </div>
+</form>

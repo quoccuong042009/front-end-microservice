@@ -1,0 +1,17 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">CGV</a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right" *ngIf = "!isLoggedIn()">
+			<li><a routerLink="/signup" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a routerLink="/login" routerLinkActive="active"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+
+		<ul class="nav navbar-nav navbar-right" *ngIf = "isLoggedIn()">
+			<li><a routerLink="/user" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Hi, {{getUsername()}}</a></li>
+    </ul>
+
+  </div>
+</nav>

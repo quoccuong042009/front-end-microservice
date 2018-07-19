@@ -1,0 +1,35 @@
+<div id = "categories">
+	<ul style = "list-style-type:none">
+		<li>
+			<h3>
+				<a href= "javascript:void(0)" (click)="getAllMovies()"
+				[ngClass]="{'active': selectedItem === 'item1'}" (click)="selectedItem = 'item1'">All</a>
+			</h3>
+		</li>
+		<li>
+			<h3>
+				<a href= "javascript:void(0)" (click)="getMovieByGenre(1)"
+				[ngClass]="{'active': selectedItem === 'item2'}" (click)="selectedItem = 'item2'">Comedy</a>
+			</h3>
+		</li>
+		<li>
+			<h3>
+				<a href= "javascript:void(0)" (click)="getMovieByGenre(2)"
+				[ngClass]="{'active': selectedItem === 'item3'}" (click)="selectedItem = 'item3'">Drama</a>
+			</h3>
+		</li>
+		<li>
+			<h3>
+				<a href= "javascript:void(0)" (click)="getMovieByGenre(3)"
+				[ngClass]="{'active': selectedItem === 'item4'}" (click)="selectedItem = 'item4'">Romance</a>
+			</h3>
+		</li>
+		<li>
+			<h3>
+				<a href= "javascript:void(0)" (click)="getMovieByGenre(4)"
+				[ngClass]="{'active': selectedItem === 'item5'}" (click)="selectedItem = 'item5'">Horror</a>
+			</h3>
+		</li>
+	</ul>
+</div>
+<app-movie-pannel [movies]="movies" ></app-movie-pannel>

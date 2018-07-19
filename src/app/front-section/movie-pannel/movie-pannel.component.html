@@ -1,0 +1,13 @@
+<div>
+	<ul id="album-list">
+		<li *ngFor="let movie of movies | paginate: { itemsPerPage: 10, currentPage: p }">
+			<a [routerLink]="['/book-movie', movie.movieId]" routerLinkActive="active">
+				<img src= {{movie.picUrl}}/>
+				<span>{{ movie.movieTitle }}</span>
+			</a>
+		</li>
+	</ul>
+	<div class = "page">
+		<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	</div >
+</div>

@@ -1,0 +1,17 @@
+<h1> Hi, {{curUser.firstName}} {{curUser.lastName}} </h1>
+<hr>
+
+<ul class="nav nav-tabs">
+  <li [ngClass]="{'active': selectedItem === 'item1'}" (click)="selectedItem = 'item1'">
+		<a routerLink="./order-details" routerLinkActive="active">Orders</a>
+	</li>
+  <li [ngClass]="{'active': selectedItem === 'item2'}" (click)="selectedItem = 'item2'">
+		<a routerLink="./change-password" routerLinkActive="active">Change Password</a>
+	</li>
+</ul>
+<div class = "container">
+	<router-outlet></router-outlet>
+</div>
+<div class = "btn-container">
+	<button class="btn btn-danger" (click) = "onSignout()">Signout</button>
+</div>

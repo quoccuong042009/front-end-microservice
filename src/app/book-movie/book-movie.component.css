@@ -1,0 +1,73 @@
+.content {
+	padding: 0 100px;
+	height: 500px;
+}
+
+.main-movie {
+	float: left;
+	margin-right: 30px;
+}
+
+.recommendation {
+	padding-left: 50px;
+	height: 400px;
+}
+
+.page {
+	padding-left: 50px;
+}
+
+p em
+{
+	color: #9b9993;
+}
+
+ul
+{
+	list-style-type: square;
+	margin-left: 50px;
+	font-size: 20px;
+}
+
+ul#album-list
+{
+	list-style: none;
+	margin-left: 10px;
+}
+
+ul#album-list li
+{
+	height: 275px;
+	width: 150px;
+	float: left;
+	margin: 30px;
+	text-align: center;
+}
+
+ul#album-list li a, ul#album-list li .button
+{
+	font-size: 15px;
+	float: left;
+}
+
+ul#album-list li a span
+{
+	color: #9b9993;
+	text-decoration: underline;
+}
+
+/* drop down */
+
+.book-movie-select {
+	margin: 5px 0;
+
+}
+
+.select-box {
+
+}
+
+.btn {
+	margin-top: 30px;
+	padding: 10px 40px;
+}
