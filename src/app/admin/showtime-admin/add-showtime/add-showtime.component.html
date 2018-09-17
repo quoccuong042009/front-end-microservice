@@ -1,0 +1,65 @@
+<h1>
+	Adding New Showtime.
+</h1>
+<h3>
+	Available Movie Schedule:
+</h3>
+<app-add-showtime-table></app-add-showtime-table>
+<div class = "row-full-width content">
+	<form [formGroup] = "addShowtimeForm" (ngSubmit) = "onSubmit()">
+
+		<div class = "dropbox">
+		<label class = "label-container"><b>Date</b></label>
+		<my-date-picker [options]="myDatePickerOptions"
+                    formControlName="myDate"></my-date-picker>
+		</div>
+
+		<div class = "dropbox">
+		<label class = "label-container"><b>Theater</b></label>
+			<select formControlName= "theater">
+				<option value="" disabled> </option>
+				<option *ngFor = "let theater of theaters" [value] = "theater.theaterId">
+					{{ theater.name }}
+				</option>
+			</select>
+		</div>
+
+		<span style="color:red" *ngIf = "fullSlot">
+			No Available Time for this theater on this date. Please choose again.
+		</span><br />
+		<span style="color:red" *ngIf = "noMovieAvailable">
+			No Available movie on this date. Please choose again.
+		</span><br />
+
+		<button type="button"
+		class="btn btn-primary"
+		type="submit"
+		[disabled]="!addShowtimeForm.valid">Check Availability</button>
+	</form>
+</div>
+<div class = "row-full-width content" *ngIf = "showAdding">
+	<div class = "dropbox" >
+			<label class = "label-container"><b>Movie</b></label>
+			<select [(ngModel)] = "selectedMovieId">
+				<option value="" disabled> </option>
+				<option *ngFor = "let movie of availableMovie" [value] = "movie.movieId">
+						{{ movie.movieTitle }}
+				</option>
+			</select>
+	</div>
+	<div class = "dropbox" >
+			<label class = "label-container"><b>Time</b></label>
+			<select [(ngModel)] = "selectedTime">
+				<option value="" disabled> </option>
+				<option *ngFor = "let a of availableTime" [value] = "a">
+						{{ a }}
+				</option>
+			</select>
+	</div>
+
+	<button type="button"
+		class="btn btn-primary"
+		type="submit"
+		[disabled]="!isSelected()"
+		(click) = "onAdd()">Add</button>
+</div>

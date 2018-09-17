@@ -1,0 +1,27 @@
+.main-movie {
+	float: left;
+	margin-right: 30px;
+}
+
+.content {
+	padding: 0 20px;
+}
+
+a:link, a:visited {
+    display: inline-block;
+
+    padding: 14px 25px;
+		margin-top: 10px;
+
+    text-align: center;
+    text-decoration: none;
+
+    color: white;
+    background-color: rgb(174, 178, 184);
+		border-radius: 5px;
+}
+
+
+a:hover, a:active {
+    background-color: rgba(99, 102, 100);
+}

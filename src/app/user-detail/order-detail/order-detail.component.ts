@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IMyDrpOptions } from 'mydaterangepicker';
 
 import { User } from '../../models/user';
 import { Order } from '../../models/order';
@@ -9,6 +10,8 @@ import { Genre } from '../../models/genre';
 import { UserService } from '../../services/user/user.service';
 import { MovieService } from '../../services/movie/movie.service';
 import { OrderService } from '../../services/order/order.service';
+import { ShareService } from '../../services/share/share.service';
+
 
 @Component({
   selector: 'app-order-detail',
@@ -30,12 +33,19 @@ export class OrderDetailComponent implements OnInit {
 	byTitle: boolean = false;
 	byDate: boolean = false;
 
+	myDateRangePickerOptions: IMyDrpOptions = {
+  		dateFormat: 'yyyy.mm.dd',
+  };
+	private dateRangePicked: any;
+
 	//
   constructor(private movieService: MovieService,
 							private userService: UserService,
-							private orderService: OrderService) { }
+							private orderService: OrderService,
+							private shareService: ShareService) { }
 
   ngOnInit() {
+		this.shareService.emitChange('item1');
 		this.getGenres();
 		this.getUser();
   }
@@ -85,10 +95,23 @@ export class OrderDetailComponent implements OnInit {
 	}
 
 	onSubmitGenre(){
-		console.log(this.selectedGenre);
+		// console.log(this.selectedGenre);
+		this.orderService.getOrdersByGenre(this.curUser.userId.toString(), this.selectedGenre.toString())
+			.subscribe(orders => this.curOrders = orders);
 	}
 
 	onSubmitTitle(){
 		console.log(this.inputTitle);
+		this.orderService.getOrdersByMovieTitle(this.curUser.userId.toString(), this.inputTitle)
+			.subscribe(orders => this.curOrders = orders);
+	}
+
+	onSubmitDateRange(){
+		let startDate = this.dateRangePicked.beginDate.year + '-' + this.dateRangePicked.beginDate.month + '-' + this.dateRangePicked.beginDate.day;
+		let endDate = this.dateRangePicked.endDate.year + '-' + this.dateRangePicked.endDate.month + '-' + this.dateRangePicked.endDate.day;
+
+		this.orderService.getOrderByDateRage(this.curUser.userId.toString(), startDate, endDate)
+			.subscribe(orders => this.curOrders = orders);
+
 	}
 }

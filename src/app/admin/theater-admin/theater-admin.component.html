@@ -1,3 +1,11 @@
-<p>
-  theater-admin works!
-</p>
+
+<span>Create New Theater: </span>
+
+<div>
+	<div class="col-xs-3">
+		<input class="form-control" type="text" [(ngModel)] = "theaterName">
+	</div>
+</div>
+
+<button class = "btn btn-default" (click) = "onCreateTheater()" [disabled]= "(theaterName === '')">Create</button>
+<app-theater-table [theaters] = "theaters"></app-theater-table>

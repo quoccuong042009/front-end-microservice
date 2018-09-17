@@ -1,0 +1,14 @@
+<div class = "row-full-width content">
+	<img src= {{movie?.picUrl}} class = "main-movie" width="300px" height="450px"/>
+
+	<h1>{{ movie?.movieTitle }}</h1><br />
+	<p>
+		{{ movie?.description }}
+	</p>
+	<hr>
+		<h3>Start Date : {{ movie?.startDate }}</h3>
+		<h3>End Date : {{ movie?.endDate }}</h3>
+		<div>
+		  <a routerLink="/admin/movie-admin" routerLinkActive="active">Back</a>
+		</div>
+</div>

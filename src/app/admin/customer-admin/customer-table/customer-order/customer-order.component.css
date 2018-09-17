@@ -1,0 +1,29 @@
+.searchContainer {
+	margin-top: 10px;
+	height: 100px;
+}
+
+.option {
+	margin-bottom: 10px;
+}
+
+.genre {
+	margin-right: 20px;
+}
+
+.container {
+	height: 500px;
+	width: 100%;
+	border-bottom: 1px solid rgba(78, 42, 60, 0.12);
+}
+
+.btn-container2 {
+	text-align: center;
+	align-items: center;
+	max-width: 100%;
+}
+
+.btn2 {
+	margin-top: 150px;
+	padding: 15px 40px;
+}

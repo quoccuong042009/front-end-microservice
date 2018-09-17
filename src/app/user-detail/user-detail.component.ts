@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import { Order } from '../models/order';
 
 import { UserService } from '../services/user/user.service';
+import { ShareService } from '../services/share/share.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -16,18 +17,17 @@ export class UserDetailComponent implements OnInit {
 	selectedItem: string;
 
   constructor(private route: Router,
-							private router: ActivatedRoute,
-							private userService: UserService) { }
+							private userService: UserService,
+							private shareService: ShareService) { }
 
   ngOnInit() {
-		this.selectedItem = 'item1';
+		// this.selectedItem = 'item1';
+		this.shareService.changeEmitted$.subscribe(
+			text => {
+            this.selectedItem = text;
+        });
 		this.getUser();
   }
-
-	onSignout(){
-		this.userService.logout();
-		this.route.navigate(['']);
-	}
 
 	getUser(){
 		this.userService.getUser()

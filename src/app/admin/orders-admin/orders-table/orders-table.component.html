@@ -1,0 +1,35 @@
+<div class = "table-container">
+	<table>
+		<tr>
+			<th>Order Number</th>
+			<th>Email</th>
+			<th>Movie Title</th>
+			<th>Genre</th>
+			<th>Theater</th>
+			<th>Date</th>
+			<th>Time</th>
+			<th>Seats</th>
+			<th>Status</th>
+			<th></th>
+		</tr>
+
+		<tr *ngFor="let o of orderDetails | paginate: { itemsPerPage: 10, currentPage: p }">
+			<td> {{ o.orderId }} </td>
+			<td> {{ o.email }} </td>
+			<td> {{ o.movieTitle }} </td>
+			<td> {{ o.genre  }} </td>
+			<td> {{ o.theater  }} </td>
+			<td> {{ o.date  }} </td>
+			<td> {{ o.time  }} </td>
+			<td> {{ o.seats  }} </td>
+			<td> {{ o.status.status }}	</td>
+			<td>
+				<button type="button" class="btn btn-link disable" *ngIf = "!isDisable(o.status.status)" (click) = "onDisable(o.orderId)">DISABLE</button>
+			</td>
+		</tr>
+
+	</table>
+</div>
+<div class = "paging">
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div >

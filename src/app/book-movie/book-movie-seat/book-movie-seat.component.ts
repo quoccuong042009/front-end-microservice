@@ -38,6 +38,7 @@ export class BookMovieSeatComponent implements OnInit {
 
 	selectedSeat: Seat[]= [];
 	invalidNumberOfSeats: boolean = false;
+	alreadyTakenSeat: boolean = false;
 
 	state: RouterStateSnapshot;
 
@@ -90,13 +91,15 @@ export class BookMovieSeatComponent implements OnInit {
 		this.orderService.getOrdersByShowtimeId(showtimeId)
 			.subscribe(
 				(orders: Order[]) => {
+					console.log(orders);
 					for(let i = 0; i < orders.length; i++){
 						let seatArray = this.stringToNumberArray(orders[i].seats);
+						// console.log(seatArray);
 						this.availableSeat = this.availableSeat.filter(item => seatArray.indexOf(item) < 0);
 					}
-					console.log(this.availableSeat);
+					// console.log(this.availableSeat);
 
-					for(let i = 1, j = 1; i <= this.NUMSEAT;i++){
+					for(let i = 1, j = 0; i <= this.NUMSEAT;i++){
 						let tempSeat: Seat = new Seat();
 
 						tempSeat.seatNumber = i;
@@ -137,27 +140,36 @@ export class BookMovieSeatComponent implements OnInit {
 	}
 
 	onSubmit(){
+		this.invalidNumberOfSeats = false;
+		this.alreadyTakenSeat = false;
 		if(this.selectedSeat.length > 5){
 			this.invalidNumberOfSeats = true;
 		}
 		else{
-			if(this.userService.isLoggedIn()){
-				let curUser: User;
-				this.userService.getUser()
-					.subscribe(user => curUser = user);
-				this.orderService.createOrder(curUser.userId.toString(), this.curShowtime.showtimeId, this.selectedSeat.toString())
-					.subscribe(
-						(response: Response) => {
-							if(response.status === 200){
-								//success page
+			let seats: string = '';
+			for(let i = 0; i < this.selectedSeat.length;i++){
+				if(i === 0){
+					seats = seats.concat(this.selectedSeat[i].seatNumber.toString());
+				}
+				else {
+					seats = seats.concat(',',this.selectedSeat[i].seatNumber.toString());
+				}
+			}
+
+			// console.log(seats);
+			this.userService.getUser()
+				.subscribe(user => {
+					this.orderService.createOrder(user.userId.toString(), this.curShowtime.showtimeId, seats)
+						.subscribe((res) => {
+							if(res === 'Success'){
+								this.route.navigate(['book-success']);
 							}
-						}
-					);
-			}
-			else{
-				this.route.navigate(['login'], {queryParams: {redirectTo: this.state.url}});
-			}
+							else {
+								this.alreadyTakenSeat = true;
+							}
+
+						});
+				});
 		}
 	}
-
 }

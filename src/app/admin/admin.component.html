@@ -1,3 +1,26 @@
-<p>
-  admin works!
-</p>
+<h1> Site Administration </h1>
+<hr>
+
+<ul class="nav nav-tabs">
+  <li [ngClass]="{'active': selectedItem === 'item1'}" (click)="selectedItem = 'item1'">
+		<a routerLink="./orders-admin" routerLinkActive="active">Orders</a>
+	</li>
+  <li [ngClass]="{'active': selectedItem === 'item2'}" (click)="selectedItem = 'item2'">
+		<a routerLink="./movie-admin" routerLinkActive="active">Movie</a>
+	</li>
+	<li [ngClass]="{'active': selectedItem === 'item3'}" (click)="selectedItem = 'item3'">
+		<a routerLink="theater-admin" routerLinkActive="active">Theater</a>
+	</li>
+	<li [ngClass]="{'active': selectedItem === 'item4'}" (click)="selectedItem = 'item4'">
+		<a routerLink="./customer-admin" routerLinkActive="active">Customer</a>
+	</li>
+	<li [ngClass]="{'active': selectedItem === 'item5'}" (click)="selectedItem = 'item5'">
+		<a routerLink="./showtime-admin" routerLinkActive="active">Showtime</a>
+	</li>
+</ul>
+<div class = "container">
+	<router-outlet></router-outlet>
+</div>
+<!-- <div class = "btn-container">
+	<button class="btn btn-danger" (click) = "onSignout()">Signout</button>
+</div> -->

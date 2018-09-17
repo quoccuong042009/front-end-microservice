@@ -1,0 +1,19 @@
+<table>
+	<tr>
+		<th>Theater</th>
+		<th *ngFor = "let d of dates">
+			{{ d }}
+		</th>
+	</tr>
+
+	<tr *ngFor = "let t of theaters, let i = index">
+		<th> {{ t.name }} </th>
+		<td *ngFor = "let listMovie of tableMovie[i]">
+			<select *ngIf = "!isEmpty(listMovie)">
+				<option *ngFor = "let movie of listMovie" >
+					{{ movie.movieTitle }}
+				</option>
+			</select>
+		</td>
+	</tr>
+</table>

@@ -28,10 +28,10 @@
 	</div>
 
 	<div *ngIf = "byDate">
-		<span>From: </span>
-
-		<span>To:</span>
-
+		<span>Pick a date range: </span>
+		<my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    [(ngModel)]="dateRangePicked" required></my-date-range-picker>
+		<button class = "btn btn-default" (click) = "onSubmitDateRange()">Search</button>
 	</div>
 </div>
 

@@ -63,11 +63,15 @@ ul#album-list li a span
 
 }
 
-.select-box {
-
-}
-
 .btn {
 	margin-top: 30px;
 	padding: 10px 40px;
+}
+
+select {
+    min-width:265px;
+    min-height: 45px;
+    border-width: 3px;
+    border-color: rgba(50, 50, 50, 0.14);
+    margin: 10px 10px 10px 0px;
 }

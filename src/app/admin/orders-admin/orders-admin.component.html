@@ -1,0 +1,31 @@
+<div>
+	<div class = "container">
+		<div class = "row">
+			<span>Search By Email Address:</span>
+			<div class="col-sm">
+				<div class="col-sm-4">
+					<input class="form-control" type="text" [(ngModel)] = "inputEmail">
+				</div>
+			</div>
+		</div>
+		<div class = "row">
+			<span> Pick a date range:</span>
+			<div class="col-sm">
+				<div class="col-sm-5">
+					<my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+					[(ngModel)]="dateRangePicked" required></my-date-range-picker>
+				</div>
+			</div>
+		</div>
+		<span style="color:red" *ngIf = "invalidEmail">
+			invalid Email. Please try again.
+		</span><br />
+		<button class = "btn btn-default"
+		(click) = "onSubmit()"
+		[disabled]= "isDisable()">Search</button>
+	</div>
+
+</div>
+
+<app-orders-table [orders] = "orders"></app-orders-table>
+<!--  -->

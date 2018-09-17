@@ -5,6 +5,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import { User } from '../../models/user';
 
 import { UserService } from '../../services/user/user.service';
+import { ShareService } from '../../services/share/share.service';
 
 @Component({
   selector: 'app-change-password',
@@ -14,8 +15,6 @@ import { UserService } from '../../services/user/user.service';
 export class ChangePasswordComponent implements OnInit {
 	changePassForm: FormGroup;
 
-	oldPassword: string;
-	invalid1: boolean;
 	invalid2: boolean;
 	invalid3: boolean;
 	invalidRepeatPassword: boolean;
@@ -23,15 +22,12 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(private userService: UserService,
 							private activatedRoute: ActivatedRoute,
-							private route: Router) { }
+							private route: Router,
+							private shareService: ShareService) { }
 
   ngOnInit() {
-
+		this.shareService.emitChange('item2');
 		this.changePassForm = new FormGroup({
-			'oldpassword': new FormControl('', [
-				Validators.required,
-				Validators.minLength(8)
-			]),
 			'password': new FormControl('', [
 				Validators.required,
 				Validators.minLength(8)
@@ -41,21 +37,14 @@ export class ChangePasswordComponent implements OnInit {
 				Validators.minLength(8)
 			])
 		});
-
-		this.userService.getUser()
-			.subscribe(user => console.log(user.password));
   }
 
 	onSubmit(){
-		this.invalid1 = false;
 		this.invalid2 = false;
 		this.invalid3 = false;
 		this.invalidOldPassword = false;
 
 		if (!this.changePassForm.valid) {
-			if (!this.changePassForm.get('oldpassword').valid) {
-				this.invalid1 = true;
-			}
 
 			if(!this.changePassForm.get('password').valid) {
 				this.invalid2 = true;
@@ -70,25 +59,17 @@ export class ChangePasswordComponent implements OnInit {
 			}
 		}
 		else {
-			// if( this.oldPassword !== this.changePassForm.get('oldpassword').value.toString()){
-			// 	this.invalidOldPassword = true;
-			// }
-			// else {
 				let rePass = this.changePassForm.get('repassword').value.toString();
 
 				this.userService.getUser()
 					.subscribe(user => {
 						this.userService.changePassword(user, rePass)
-							.subscribe((response: Response) =>{
-								console.log(response);
-								// if(res){
-								// 	this.userService.logout();
-								// 	this.navigateAfterSuccess();
-								// }
+							.subscribe(() => {
+								this.userService.logout();
+								this.navigateAfterSuccess();
 							}
 						)
-					});
-			// }
+				});
 		}
 	}
 

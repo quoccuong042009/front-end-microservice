@@ -31,3 +31,11 @@ p em
 {
 	color: #9b9993;
 }
+
+.search-container {
+	height: 40px;
+}
+
+.btn {
+	margin-left: 20px;
+}

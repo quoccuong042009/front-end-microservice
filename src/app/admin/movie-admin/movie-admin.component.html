@@ -1,3 +1,40 @@
-<p>
-  movie-admin works!
-</p>
+<div>
+	<a [routerLink]="['/movie-add']" routerLinkActive="active">Add New Movie</a>
+</div>
+<div class = "searchContainer">
+	<span>
+		Search by:
+	</span>
+	<select class = "option" (change)="onOptionSelected($event.target.value)" >
+		<option *ngFor = "let s of searchOptions; let i = index" [value] = "i">
+			{{ s }}
+		</option>
+	</select>
+	<div *ngIf="byAll">
+		<button class = "btn btn-default" (click) = "onSubmitAll()"> Search</button>
+	</div>
+
+	<div  *ngIf = "byGenre">
+		<select class = "genre" [(ngModel)] = "selectedGenre">
+			<option *ngFor = "let g of genreOptions" [value] = "g.genre_id">
+				{{ g.genre }}
+			</option>
+		</select>
+		<button class = "btn btn-default" (click) = "onSubmitGenre()">Search</button>
+	</div>
+
+	<div *ngIf = "byTitle">
+		<div class="col-xs-3">
+    	<input class="form-control" type="text" [(ngModel)] = "inputTitle">
+  	</div>
+		<button class = "btn btn-default" (click) = "onSubmitTitle()" [disabled]= "(inputTitle === '')">Search</button>
+	</div>
+
+	<div *ngIf = "byDate">
+		<span>Pick a date range: </span>
+		<my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    [(ngModel)]="dateRangePicked" required></my-date-range-picker>
+		<button class = "btn btn-default" (click) = "onSubmitDateRange()">Search</button>
+	</div>
+</div>
+<app-movie-talbe [movies] = "movies"></app-movie-talbe>

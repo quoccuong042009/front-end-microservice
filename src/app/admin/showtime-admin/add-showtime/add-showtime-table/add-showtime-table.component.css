@@ -1,0 +1,32 @@
+.content {
+	padding: 20px;
+}
+
+.dropbox {
+	margin: 10px;
+}
+
+label {
+	margin-right: 10px;
+}
+
+select {
+    min-width: 150px;
+    min-height: 65px;
+    border-width: 2px;
+    /* border-color: rgba(50, 50, 50, 0.14); */
+    margin: 10px 10px 10px 0px;
+}
+
+.label-container {
+	width: 100px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+	text-align: center;
+  border: 1px solid black;
+}

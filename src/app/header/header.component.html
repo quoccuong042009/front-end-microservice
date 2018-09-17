@@ -10,8 +10,40 @@
     </ul>
 
 		<ul class="nav navbar-nav navbar-right" *ngIf = "isLoggedIn()">
-			<li><a routerLink="/user" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Hi, {{getUsername()}}</a></li>
-    </ul>
+			<div class="dropdown" *ngIf = "isUserLoggedIn()">
+  			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+					Hi, {{getUsername()}}
+  				<span class="caret"></span>
+				</button>
+  			<ul class="dropdown-menu">
+    			<li><a routerLink="/user" routerLinkActive="active">User Information</a></li>
+    			<li><a routerLink="/user/change-password" routerLinkActive="active">Change Password</a></li>
+    			<li><a href="javascript:void(f1())" (click) = "onSignout()">Sign Out</a></li>
+  			</ul>
+			</div>
+
+			<div class="dropdown" *ngIf = "isAdminLoggedIn()">
+  			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+					Admin
+  				<span class="caret"></span>
+				</button>
+  			<ul class="dropdown-menu">
+    			<li><a routerLink="/admin" routerLinkActive="active">Administration</a></li>
+    			<li><a href="javascript:void(f1())" (click) = "onSignout()">Sign Out</a></li>
+  			</ul>
+			</div>
+
+			</ul>
+
+			<!-- <ul class="nav navbar-nav navbar-right" *ngIf = "isUserLoggedIn()">
+				<li><a routerLink="/user" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Hi, {{getUsername()}} </a></li>
+	    </ul>
+
+			<ul class="nav navbar-nav navbar-right" *ngIf = "isAdminLoggedIn()">
+				<li><a routerLink="/admin" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Admin </a></li>
+	    </ul> -->
+		<!-- </div> -->
+
 
   </div>
 </nav>

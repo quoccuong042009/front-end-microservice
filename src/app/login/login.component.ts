@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {Router, ActivatedRoute} from '@angular/router';
 
+import { CookieService } from 'ngx-cookie-service';
+import { TOKEN_NAME } from '../services/user/auth.constant';
+import { JwtHelperService } from '@auth0/angular-jwt'
+
 import { AuthenticationService } from '../services/user/authentication.service';
 import { UserService } from '../services/user/user.service';
 
@@ -12,6 +16,8 @@ import { UserService } from '../services/user/user.service';
 	styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+	jwtHelper: JwtHelperService = new JwtHelperService();
+
 	loginForm: FormGroup;
 
 	invalidEmail: boolean;
@@ -23,7 +29,8 @@ export class LoginComponent implements OnInit {
 	constructor(private authenticationService: AuthenticationService,
 							private userService: UserService,
 							private activatedRoute: ActivatedRoute,
-							private route: Router) {
+							private route: Router,
+							private cookieService: CookieService) {
 		this.redirectUrl = this.activatedRoute.snapshot.queryParams['redirectTo'];
 	}
 
@@ -80,7 +87,13 @@ export class LoginComponent implements OnInit {
     if (this.redirectUrl) {
       this.route.navigateByUrl(this.redirectUrl);
     } else {
-      this.route.navigate(['']);
+			const decodedToken = this.jwtHelper.decodeToken(this.cookieService.get(TOKEN_NAME));
+			if(decodedToken.authorities[0] === 'ADMIN'){
+				this.route.navigate(['admin']);
+			}
+			else{
+				this.route.navigate(['']);
+			}
     }
   }
 }

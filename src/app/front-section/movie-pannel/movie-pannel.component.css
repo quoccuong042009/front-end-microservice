@@ -4,11 +4,12 @@ img {
 }
 
 .page {
-	position: fixed;
 	bottom: 15px;
 	padding-left: 600px;
 }
-
+#album-list{
+	height: 675px;
+}
 p em
 {
 	color: #9b9993;

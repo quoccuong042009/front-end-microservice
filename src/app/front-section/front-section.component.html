@@ -2,7 +2,7 @@
 	<ul style = "list-style-type:none">
 		<li>
 			<h3>
-				<a href= "javascript:void(0)" (click)="getAllMovies()"
+				<a href= "javascript:void(0)" (click)="getAvaiMoviesByShowtime()"
 				[ngClass]="{'active': selectedItem === 'item1'}" (click)="selectedItem = 'item1'">All</a>
 			</h3>
 		</li>
@@ -31,5 +31,13 @@
 			</h3>
 		</li>
 	</ul>
+</div>
+<div class = "search-container">
+	<div>
+		<span>Pick a date range: </span>
+		<my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    [(ngModel)]="dateRangePicked" required></my-date-range-picker>
+		<button class = "btn btn-default" (click) = "onSubmitDateRange()">Search</button>
+	</div>
 </div>
 <app-movie-pannel [movies]="movies" ></app-movie-pannel>

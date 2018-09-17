@@ -2,6 +2,7 @@ import { Injectable  } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 import {TOKEN_NAME} from './auth.constant';
 
@@ -12,18 +13,22 @@ import { User } from '../../models/user';
 })
 export class UserService {
   jwtHelper: JwtHelperService = new JwtHelperService();
-  isAdmin: boolean;
+  isAdmin: boolean = false;
 	// user: User;
 
 	private userUrl = 'http://localhost:8765/user-service';
 
   constructor(private http: HttpClient,
-							private cookieService: CookieService) {
+							private cookieService: CookieService,
+							private route: Router) {
   }
 
   login(accessToken: string) {
     const decodedToken = this.jwtHelper.decodeToken(accessToken);
-    this.isAdmin = decodedToken.authorities.some(el => el === 'ADMIN');
+		if(decodedToken.authorities[0].toString() === 'ADMIN'){
+			this.isAdmin = true;
+		}
+		// console.log(this.isAdmin);
 		this.cookieService.set(TOKEN_NAME, accessToken);
 		// this.getUser().subscribe(user => this.user = user);
   }
@@ -31,6 +36,7 @@ export class UserService {
   logout() {
 		this.isAdmin = false;
     this.cookieService.delete(TOKEN_NAME);
+		this.route.navigate(['']);
   }
 
   isAdminUser(): boolean {
@@ -41,11 +47,11 @@ export class UserService {
     return this.cookieService.get(TOKEN_NAME) && !this.isAdmin;
   }
 
-	signupService(email: string,
+	signup(email: string,
 		password: string,
 		firstName: string,
 		lastName: string,
-		dateOfBirth: string) {
+		dateOfBirth: Date) {
 		const url = `${this.userUrl}/${'public/add-user'}`;
 		const body = {
 				'firstName': firstName,
@@ -62,7 +68,13 @@ export class UserService {
         },
 				'dateOfBirth': dateOfBirth
     };
-		return this.http.post(url, body);
+
+		return this.http.post(url, body,{
+        headers: new HttpHeaders({
+					'Content-Type': 'application/json'
+				}),
+        responseType: 'text'
+     });
 	}
 
 	getUser(){
@@ -86,13 +98,6 @@ export class UserService {
 	}
 
 	changePassword(user: User, updatedPass: string){
-		const httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
-        })
-    };
-
 		const url = `${this.userUrl}/${'protected/user/password/'}` + user.userId;
 
 		const body = {
@@ -111,6 +116,102 @@ export class UserService {
 				'dateOfBirth': user.dateOfBirth
     };
 
+		return this.http.put(url,body,{
+        headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+				}),
+        responseType: 'text'
+     });
+	}
+
+	getUserByEmail(email: string){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+
+		const url = `${this.userUrl}/${'protected/user/'}` + email;
+
+		return this.http.get<User>(url,httpOptions);
+	}
+
+	//=========== ADMIN ===================
+
+	getAllUsers(){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+
+		const url = `${this.userUrl}/${'protected/users'}`;
+
+		return this.http.get<User[]>(url,httpOptions);
+	}
+
+	disableOrEnableUser(user: User, status: number){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+		let body;
+
+		if(status === 1){
+			body = {
+        "userId": user.userId,
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "email": user.email,
+        "password": user.password,
+        "role": {
+            "roleId": 2,
+            "role": "STANDARD_USER"
+        },
+        "status": {
+            "statusID": 1,
+            "status": "ENABLE"
+        },
+        "dateOfBirth": user.dateOfBirth
+    	};
+		}
+		else{
+			body = {
+        "userId": user.userId,
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "email": user.email,
+        "password": user.password,
+        "role": {
+            "roleId": 2,
+            "role": "STANDARD_USER"
+        },
+        "status": {
+            "statusID": 2,
+            "status": "DISABLE"
+        },
+        "dateOfBirth": user.dateOfBirth
+    	};
+		}
+
+		const url = `${this.userUrl}/${'protected/user/status/'}` + user.userId;
 		return this.http.put(url,body,httpOptions);
+	}
+
+	getUserByUserId(userId: string){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+
+		const url = `${this.userUrl}/${'protected/user/id/'}` + userId;
+		return this.http.get<User>(url,httpOptions);
 	}
 }

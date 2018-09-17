@@ -1,0 +1,30 @@
+<div class = "table-container">
+	<table>
+		<tr>
+			<th>Order Id</th>
+			<th>Movie Title</th>
+			<th>Genre</th>
+			<th>Date</th>
+			<th>Theater</th>
+			<th>Time</th>
+			<th>seats</th>
+			<th>Status</th>
+			<th></th>
+		</tr>
+
+		<tr *ngFor="let o of orderDetails">
+			<td> {{ o.orderId }} </td>
+			<td> {{ o.movieTitle }} </td>
+			<td> {{ o.genre  }} </td>
+			<td> {{ o.date  }} </td>
+			<td> {{ o.time  }} </td>
+			<td> {{ o.seats  }} </td>
+			<td> {{ o.seats }} </td>
+			<td> {{ o.status.status }}</td>
+			<td>
+				<button type="button" class="btn btn-link disable" *ngIf = "!isDisable(o.status.status)" (click) = "onDisable(o.orderId)">DISABLE</button>
+			</td>
+		</tr>
+
+	</table>
+</div>

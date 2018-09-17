@@ -1,3 +1,28 @@
-<p>
-  movie-talbe works!
-</p>
+<div class = "table-container">
+	<table>
+		<tr>
+			<th>Movie Id</th>
+			<th>Movie Title</th>
+			<th>Genre</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th></th>
+		</tr>
+
+		<tr *ngFor="let m of movies | paginate: { itemsPerPage: 10, currentPage: p }">
+			<td> {{ m.movieId }} </td>
+			<td> {{ m.movieTitle }} </td>
+			<td> {{ m.genre.genre }} </td>
+			<td> {{ m.startDate  }} </td>
+			<td> {{ m.endDate  }} </td>
+			<td>
+				<a [routerLink]="['/movie-detail', m.movieId]" routerLinkActive="active">Detail</a> |
+				<a [routerLink]="['/movie-edit', m.movieId]" routerLinkActive="active">Edit</a>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class = "paging">
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div >

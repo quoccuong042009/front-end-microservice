@@ -1,3 +1,33 @@
-<p>
-  showtime-table works!
-</p>
+<div class = "container">
+	<span style="color:red" *ngIf = "alreadyHaveOrder">
+		This showtime have been already ordered. It can't be disable.
+	</span>
+</div>
+<div class = "table-container">
+<table>
+	<tr>
+		<th>Movie Title</th>
+		<th>Genre</th>
+		<th>Theater</th>
+		<th>Date</th>
+		<th>Time</th>
+		<th>Status</th>
+		<th></th>
+	</tr>
+
+	<tr *ngFor="let s of showtimeDetails | paginate: { itemsPerPage: 10, currentPage: p }">
+		<td> {{ s.movieTitle }} </td>
+		<td> {{ s.genre.genre }} </td>
+		<td> {{ s.theaterName }} </td>
+		<td> {{ s.date  }} </td>
+		<td> {{ s.time  }} </td>
+		<td> {{ s.status.status  }} </td>
+		<td>
+			<button type="button" class="btn btn-link disable" *ngIf = "!isDisable(s.status.status)" (click) = "onDisable(s.showtimeId)">DISABLE</button>
+		</td>
+	</tr>
+</table>
+</div>
+<div class = "paging">
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div >

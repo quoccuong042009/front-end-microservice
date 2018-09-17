@@ -18,8 +18,13 @@ export class OrderService {
   constructor(private http: HttpClient,
 							private cookieService: CookieService) { }
 
+	getAllOrders(){
+		const url = `${this.orderUrl}/${'orders'}`;
+		return this.http.get<Order[]>(url);
+	}
+
 	getOrdersByShowtimeId(showtimeId: string){
-		const url = `${this.orderUrl}/${'orders/'}` + showtimeId;
+		const url = `${this.orderUrl}/${'orders/showtime/'}` + showtimeId;
 		return this.http.get<Order[]>(url);
 	}
 
@@ -30,18 +35,23 @@ export class OrderService {
             'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
         })
     };
-		const url = `${this.orderUrl}/${'protected/orders/'}` + userId;
+		const url = `${this.orderUrl}/${'protected/orders/user-id/'}` + userId;
 		return this.http.get<Order[]>(url);
 	}
 
-	createOrder(userId: string, showtimeId: string, seats: string){
+	getOrderByUserEmail(email: string): Observable<Order[]>{
 		const httpOptions = {
         headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
         })
     };
-		const url = `${this.orderUrl}/${'/protected/create-order'}`;
+		const url = `${this.orderUrl}/${'protected/orders/user-email/'}` + email;
+		return this.http.get<Order[]>(url,httpOptions);
+	}
+
+	createOrder(userId: string, showtimeId: string, seats: string){
+		const url = `${this.orderUrl}/${'protected/create-order'}`;
 		const body = {
 			"userId": userId,
 			"showtimeId": showtimeId,
@@ -51,20 +61,107 @@ export class OrderService {
 					"status": "ENABLE"
 			}
     };
-		return this.http.post(url,body,httpOptions);
+		return this.http.post(url,body,{
+        headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+				}),
+        responseType: 'text'
+     });
 	}
 
-	getOrdersByGenre(genreId: string){
+	disableOrEnableOrder(order: Order, status: number){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+		let body;
 
+		if(status === 1){
+			body = {
+				"orderId": order.orderId,
+				"userId": order.userId,
+				"showtimeId": order.showtimeId,
+				"seats": order.seats,
+				"statusId": {
+						"statusID": 1,
+						"status": "ENABLE"
+				}
+	    };
+		}
+		else{
+			body = {
+				"orderId": order.orderId,
+				"userId": order.userId,
+				"showtimeId": order.showtimeId,
+				"seats": order.seats,
+				"statusId": {
+						"statusID": 2,
+						"status": "DISABLE"
+				}
+	    };
+		}
+
+		const url = `${this.orderUrl}/${'protected/order/cancel-order'}`;
+		console.log(body);
+		return this.http.put(url,body,httpOptions);
+	}
+	//======================ORDER SEARCH BY USER==========================================
+	getOrdersByGenre(userId:string, genreId: string){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+
+		const url = `${this.orderUrl}/${'protected/orders/genre/'}` + userId + `/` + genreId;
+
+		return this.http.get<Order[]>(url,httpOptions);
 	}
 
-	getOrdersByMovieTitle(movieTitle: string){
+	getOrdersByMovieTitle(userId:string, movieTitle: string){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
 
+		const url = `${this.orderUrl}/${'protected/orders/movie-title/'}` + userId + `/` + movieTitle;
+
+		return this.http.get<Order[]>(url,httpOptions);
 	}
 
-	getOrderByDateRage(startDate: Date, endDate: Date){
-		
+	getOrderByDateRage(userId:string, startDate: string, endDate: string){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+
+		const url = `${this.orderUrl}/${'protected/orders/range-date/'}` + userId + `/` + startDate + `/` + endDate;
+
+		return this.http.get<Order[]>(url,httpOptions);
 	}
+
+	getOrderByRangeDateWithoutUserId(startDate: string, endDate: string){
+		const httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+        })
+    };
+
+		const url = `${this.orderUrl}/${'protected/orders/date/'}` + startDate + `/` + endDate;
+
+		return this.http.get<Order[]>(url,httpOptions);
+	}
+
+
 	//======================ORDER DETAIL==========================================
 
 	// getOrderDetailbyOrderId(orderId: string){
@@ -75,8 +172,8 @@ export class OrderService {
 	getOrderDetailbyOrders(orders: Order[]){
 		const httpOptions = {
 				headers: new HttpHeaders({
-						'Content-Type': 'application/json',
-						'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
+						'Content-Type': 'application/json'
+						// 'Authorization': 'Bearer ' + this.cookieService.get(TOKEN_NAME)
 				})
 		};
 		const url = `${this.orderUrl}/${'protected/orderdetail'}` ;

@@ -21,6 +21,9 @@
 	<span style="color:red" *ngIf = "invalidNumberOfSeats">
 		Maximum numbers of seat per order is 5. Please try again.
 	</span>
+	<span style="color:red" *ngIf = "alreadyTakenSeat">
+		One of these seats has already been taken. Please reload and choose again.
+	</span>
 	<br />
 	<button type="button" class="btn btn-primary" type="submit" (click) ="onSubmit()">
 		Submit

@@ -1,3 +1,17 @@
-<p>
-  theater-table works!
-</p>
+<div class = "table-container">
+	<table>
+		<tr>
+			<th>Theater Id</th>
+			<th>Theater Name</th>
+			<th></th>
+		</tr>
+
+		<tr *ngFor="let t of theaters">
+			<td> {{ t.theaterId }} </td>
+			<td> {{ t.name }} </td>
+			<td>
+				<a [routerLink]="['/theater-edit', t.theaterId]" routerLinkActive="active" >Edit</a>
+			</td>
+		</tr>
+	</table>
+</div>

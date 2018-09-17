@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { Theater } from '../../../models/theater';
 
 @Component({
   selector: 'app-theater-table',
@@ -6,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./theater-table.component.css']
 })
 export class TheaterTableComponent implements OnInit {
-
+	@Input() theaters: Theater[];
   constructor() { }
 
   ngOnInit() {

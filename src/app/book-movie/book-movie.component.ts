@@ -92,7 +92,7 @@ export class BookMovieComponent implements OnInit {
 	}
 
 	getRecMoviesByGenreId(genreId: string): void {
-		this.movieService.getMoviesByGenreId(genreId)
+		this.movieService.getAvaiMoviesByShowtimeAndGenreId(genreId)
 		.subscribe(
 			(movies: Movie[]) => {
 				this.recMovies = movies
@@ -164,7 +164,7 @@ onTimeSelected(time: string){
 
 //on submit
 onSubmit(){
-	console.log(this.bookMovieForm);
+	// console.log(this.bookMovieForm);
 
 	this.route.navigate(['/book-movie/seats',
 		this.movieId,

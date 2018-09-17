@@ -6,6 +6,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpModule } from '@angular/http'
 import { CookieService } from 'ngx-cookie-service';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { MyDatePickerModule } from 'mydatepicker';
 
 import { TOKEN_NAME } from './services/user/auth.constant';
 import { UserAuthGuardGuard } from './guards/user-auth-guard.guard';
@@ -33,6 +35,18 @@ import { ShowtimeTableComponent } from './admin/showtime-admin/showtime-table/sh
 import { CustomerTableComponent } from './admin/customer-admin/customer-table/customer-table.component';
 import { TheaterTableComponent } from './admin/theater-admin/theater-table/theater-table.component';
 import { MovieTalbeComponent } from './admin/movie-admin/movie-talbe/movie-talbe.component';
+import { BookSuccessComponent } from './book-movie/book-movie-seat/book-success/book-success.component';
+import { OrdersAdminComponent } from './admin/orders-admin/orders-admin.component';
+import { OrdersTableComponent } from './admin/orders-admin/orders-table/orders-table.component';
+import { EditMovieComponent } from './admin/movie-admin/movie-talbe/edit-movie/edit-movie.component';
+import { DetailMovieComponent } from './admin/movie-admin/movie-talbe/detail-movie/detail-movie.component';
+import { AddMovieComponent } from './admin/movie-admin/add-movie/add-movie.component';
+import { EditTheaterComponent } from './admin/theater-admin/theater-table/edit-theater/edit-theater.component';
+import { AddShowtimeComponent } from './admin/showtime-admin/add-showtime/add-showtime.component';
+import { CustomerOrderComponent } from './admin/customer-admin/customer-table/customer-order/customer-order.component';
+import { CustomerOrderTableComponent } from './admin/customer-admin/customer-table/customer-order/customer-order-table/customer-order-table.component';
+import { AddShowtimeTableComponent } from './admin/showtime-admin/add-showtime/add-showtime-table/add-showtime-table.component';
+import { OrderGuardComponent } from './guards/order-guard/order-guard.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -60,9 +74,23 @@ export function tokenGetter() {
     ShowtimeTableComponent,
     CustomerTableComponent,
     TheaterTableComponent,
-    MovieTalbeComponent
+    MovieTalbeComponent,
+    BookSuccessComponent,
+    OrdersAdminComponent,
+    OrdersTableComponent,
+    EditMovieComponent,
+    DetailMovieComponent,
+    AddMovieComponent,
+    EditTheaterComponent,
+    AddShowtimeComponent,
+    CustomerOrderComponent,
+    CustomerOrderTableComponent,
+    AddShowtimeTableComponent,
+    OrderGuardComponent
   ],
   imports: [
+		MyDatePickerModule,
+		MyDateRangePickerModule,
 		JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
